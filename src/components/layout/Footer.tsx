@@ -114,7 +114,7 @@ export default function Footer() {
           </div>
         </div>
       </div>
-      <div className="text-sm flex justify-center items-center pb-2">
+      <div className="text-sm flex justify-center items-center pb-2 dark:brightness-[0.8]">
                         © {new Date().getFullYear()} CholoPothik.Keep booking, keep riding.
                     </div>
     </footer>
