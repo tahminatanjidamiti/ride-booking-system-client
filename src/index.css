@@ -107,8 +107,8 @@
   --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 10%);
   --sidebar-ring: oklch(46.186% 0.11813 7.83);
+  --sidebar-primary: hsl(224.3 76.3% 48%);
 }
-
 
 @layer base {
   * {

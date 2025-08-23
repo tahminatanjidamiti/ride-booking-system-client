@@ -9,6 +9,7 @@ import {
 import Logo from "@/assets/icons/Logo"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
+import React from "react";
 import {
   NavigationMenu,
   NavigationMenuContent,
@@ -22,10 +23,11 @@ import { Link } from "react-router"
 import { ModeToggle } from "./ModeToggoler"
 import { authApi, useLogoutMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api"
 import { useAppDispatch } from "@/redux/hook"
+import { role } from "@/constants/role"
 
 // Navigation links array to be used in both desktop and mobile menus
 const navigationLinks = [
-  { href: "/", label: "Home" },
+  { href: "/", label: "Home", role: "PUBLIC", },
   {
     label: "Features",
     submenu: true,
@@ -36,25 +38,43 @@ const navigationLinks = [
         label: "Explore",
         description: "Let's Dive in features",
       },
-    ],
+    ], role: "PUBLIC",
   },
   {
     label: "About",
     submenu: true,
     type: "icon",
-    items: [{ href: "/about", label: "About Us", icon: "InfoIcon" }],
+    items: [{ href: "/about", label: "About Us", icon: "InfoIcon" }], role: "PUBLIC",
   },
   {
     label: "Contact",
     submenu: true,
     type: "icon",
-    items: [{ href: "/contact", label: "Let's Connected", icon: "MessageCircleIcon" }],
+    items: [{ href: "/contact", label: "Let's Connected", icon: "MessageCircleIcon" }], role: "PUBLIC",
   },
   {
     label: "FAQ",
     submenu: true,
     type: "icon",
-    items: [{ href: "/faq", label: "Learn More", icon: "HelpCircleIcon" }],
+    items: [{ href: "/faq", label: "Learn More", icon: "HelpCircleIcon" }], role: "PUBLIC",
+  },
+  {
+    label: "Dashboard",
+    href: "/admin",
+    icon: "InfoIcon",
+    role: role.admin,
+  },
+  {
+    label: "Dashboard",
+    href: "/rider",
+    icon: "InfoIcon",
+    role: role.rider,
+  },
+  {
+    label: "Dashboard",
+    href: "/driver",
+    icon: "InfoIcon",
+    role: role.driver,
   },
 ]
 
@@ -158,7 +178,10 @@ export default function Navbar() {
             <NavigationMenu viewport={false} className="max-md:hidden">
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
-                  <NavigationMenuItem key={index}>
+                  <React.Fragment key={index}>
+                  {
+                    link.role === "PUBLIC" && (
+                      <NavigationMenuItem key={index}>
                     {link.submenu ? (
                       <>
                         <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
@@ -242,6 +265,97 @@ export default function Navbar() {
                       </NavigationMenuLink>
                     )}
                   </NavigationMenuItem>
+                    )
+                  }
+                  {
+                    link.role === data?.data?.role && (
+                      <NavigationMenuItem key={index}>
+                    {link.submenu ? (
+                      <>
+                        <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
+                          {link.label}
+                        </NavigationMenuTrigger>
+                        <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-right-16! data-[motion=from-start]:slide-in-from-left-16! data-[motion=to-end]:slide-out-to-right-16! data-[motion=to-start]:slide-out-to-left-16! z-50 p-1">
+                          <ul
+                            className={cn(
+                              link.type === "description" ? "min-w-64" : "min-w-48"
+                            )}
+                          >
+                            {link.items.map((item, itemIndex) => (
+                              <li key={itemIndex}>
+                                <NavigationMenuLink asChild className="py-1.5">
+                                  <Link to={item.href}>
+                                    {/* Icon rendering */}
+                                    {link.type === "icon" && "icon" in item && (
+                                      <div className="flex items-center gap-2">
+                                        {item.icon === "BookOpenIcon" && (
+                                          <BookOpenIcon
+                                            size={16}
+                                            className="text-foreground opacity-60"
+                                            aria-hidden="true"
+                                          />
+                                        )}
+                                        {item.icon === "LifeBuoyIcon" && (
+                                          <LifeBuoyIcon
+                                            size={16}
+                                            className="text-foreground opacity-60"
+                                            aria-hidden="true"
+                                          />
+                                        )}
+                                        {item.icon === "InfoIcon" && (
+                                          <InfoIcon
+                                            size={16}
+                                            className="text-foreground opacity-60"
+                                            aria-hidden="true"
+                                          />
+                                        )}
+                                        {item.icon === "HelpCircleIcon" && (
+                                          <HelpCircleIcon
+                                            size={16}
+                                            className="text-foreground opacity-60"
+                                            aria-hidden="true"
+                                          />
+                                        )}
+                                        {item.icon === "MessageCircleIcon" && (
+                                          <MessageCircleIcon
+                                            size={16}
+                                            className="text-foreground opacity-60"
+                                            aria-hidden="true"
+                                          />
+                                        )}
+                                        <span>{item.label}</span>
+                                      </div>
+                                    )}
+
+                                    {/* Description rendering */}
+                                    {link.type === "description" && "description" in item ? (
+                                      <div className="space-y-1">
+                                        <div className="font-medium">{item.label}</div>
+                                        <p className="text-muted-foreground line-clamp-2 text-xs">
+                                          {item.description}
+                                        </p>
+                                      </div>
+                                    ) : (
+                                      !link.type ||
+                                      (link.type !== "icon" &&
+                                        link.type !== "description" && <span>{item.label}</span>)
+                                    )}
+                                  </Link>
+                                </NavigationMenuLink>
+                              </li>
+                            ))}
+                          </ul>
+                        </NavigationMenuContent>
+                      </>
+                    ) : (
+                      <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
+                        <Link to={link.href ?? "/"}>{link.label}</Link>
+                      </NavigationMenuLink>
+                    )}
+                  </NavigationMenuItem>
+                    )
+                  }
+                  </React.Fragment>
                 ))}
               </NavigationMenuList>
             </NavigationMenu>
