@@ -6,7 +6,7 @@ export default function Logo() {
     <img
           src={RideLogo}
           alt="Image"
-          className="h-16 w-16 dark:brightness-[0.8]"
+          className="h-12 w-12 dark:brightness-[0.8]"
         />
   )
 }
