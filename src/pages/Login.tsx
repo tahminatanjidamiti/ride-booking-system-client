@@ -18,11 +18,11 @@ export default function Login() {
           </div>
         </div>
       </div>
-      <div className="relative bg-muted">
+      <div className="bg-muted">
         <img
           src={RideLogin}
           alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.8]"
+          className="h-full w-full object-cover dark:brightness-[0.8]"
         />
       </div>
     </div>
