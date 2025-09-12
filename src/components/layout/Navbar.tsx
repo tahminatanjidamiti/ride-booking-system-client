@@ -59,6 +59,12 @@ const navigationLinks = [
     items: [{ href: "/faq", label: "Learn More", icon: "HelpCircleIcon" }], role: "PUBLIC",
   },
   {
+    label: "Request Driver",
+    href: "/request/driver",
+    icon: "InfoIcon",
+    role: role.rider,
+  },
+  {
     label: "Dashboard",
     href: "/admin",
     icon: "InfoIcon",
@@ -90,7 +96,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="border-b py-1">
+    <header className="border-b py-1 sticky top-0 z-50 backdrop-blur-xl">
       <div className="container mx-auto px-4 flex h-16 items-center justify-between gap-4">
         {/* Left side */}
         <div className="flex items-center gap-2">
@@ -128,43 +134,43 @@ export default function Navbar() {
             <PopoverContent align="start" className="w-64 p-1 md:hidden">
               <NavigationMenu className="max-w-none *:w-full">
                 <NavigationMenuList className="flex-col items-start gap-0 md:gap-2">
-                  {navigationLinks.map((link, index) => (
-                    <NavigationMenuItem key={index} className="w-full">
-                      {link.submenu ? (
-                        <>
-                          <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
-                            {link.label}
-                          </div>
-                          <ul>
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <NavigationMenuLink asChild className="py-1.5">
-                                  <Link to={item.href}>{item.label}</Link>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </>
-                      ) : (
-                        <NavigationMenuLink asChild className="py-1.5">
-                          <Link to={link.href ?? "/"}>{link.label}</Link>
-                        </NavigationMenuLink>
-                      )}
-                      {/* Separator logic */}
-                      {index < navigationLinks.length - 1 &&
-                        ((!link.submenu && navigationLinks[index + 1].submenu) ||
-                          (link.submenu && !navigationLinks[index + 1].submenu) ||
-                          (link.submenu &&
-                            navigationLinks[index + 1].submenu &&
-                            link.type !== navigationLinks[index + 1].type)) && (
+                  {navigationLinks
+                    .filter(
+                      (link) =>
+                        link.role === "PUBLIC" || link.role === data?.data?.role
+                    )
+                    .map((link, index) => (
+                      <NavigationMenuItem key={index} className="w-full">
+                        {link.submenu ? (
+                          <>
+                            <div className="text-muted-foreground px-2 py-1.5 text-xs font-medium">
+                              {link.label}
+                            </div>
+                            <ul>
+                              {link.items.map((item, itemIndex) => (
+                                <li key={itemIndex}>
+                                  <NavigationMenuLink asChild className="py-1.5">
+                                    <Link to={item.href}>{item.label}</Link>
+                                  </NavigationMenuLink>
+                                </li>
+                              ))}
+                            </ul>
+                          </>
+                        ) : (
+                          <NavigationMenuLink asChild className="py-1.5">
+                            <Link to={link.href ?? "/"}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        )}
+                        {/* Separator logic */}
+                        {index < navigationLinks.length - 1 && (
                           <div
                             role="separator"
                             aria-orientation="horizontal"
                             className="bg-border -mx-1 my-1 h-px w-full"
                           />
                         )}
-                    </NavigationMenuItem>
-                  ))}
+                      </NavigationMenuItem>
+                    ))}
                 </NavigationMenuList>
               </NavigationMenu>
             </PopoverContent>
@@ -179,182 +185,192 @@ export default function Navbar() {
               <NavigationMenuList className="gap-2">
                 {navigationLinks.map((link, index) => (
                   <React.Fragment key={index}>
-                  {
-                    link.role === "PUBLIC" && (
+                    {link.role === "PUBLIC" && (
                       <NavigationMenuItem key={index}>
-                    {link.submenu ? (
-                      <>
-                        <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
-                          {link.label}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-right-16! data-[motion=from-start]:slide-in-from-left-16! data-[motion=to-end]:slide-out-to-right-16! data-[motion=to-start]:slide-out-to-left-16! z-50 p-1">
-                          <ul
-                            className={cn(
-                              link.type === "description" ? "min-w-64" : "min-w-48"
-                            )}
-                          >
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <NavigationMenuLink asChild className="py-1.5">
-                                  <Link to={item.href}>
-                                    {/* Icon rendering */}
-                                    {link.type === "icon" && "icon" in item && (
-                                      <div className="flex items-center gap-2">
-                                        {item.icon === "BookOpenIcon" && (
-                                          <BookOpenIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "LifeBuoyIcon" && (
-                                          <LifeBuoyIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "InfoIcon" && (
-                                          <InfoIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "HelpCircleIcon" && (
-                                          <HelpCircleIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "MessageCircleIcon" && (
-                                          <MessageCircleIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        <span>{item.label}</span>
-                                      </div>
-                                    )}
+                        {link.submenu ? (
+                          <>
+                            <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
+                              {link.label}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-right-16! data-[motion=from-start]:slide-in-from-left-16! data-[motion=to-end]:slide-out-to-right-16! data-[motion=to-start]:slide-out-to-left-16! z-50 p-1">
+                              <ul
+                                className={cn(
+                                  link.type === "description"
+                                    ? "min-w-64"
+                                    : "min-w-48"
+                                )}
+                              >
+                                {link.items.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <NavigationMenuLink asChild className="py-1.5">
+                                      <Link to={item.href}>
+                                        {link.type === "icon" &&
+                                          "icon" in item && (
+                                            <div className="flex items-center gap-2">
+                                              {item.icon === "BookOpenIcon" && (
+                                                <BookOpenIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "LifeBuoyIcon" && (
+                                                <LifeBuoyIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "InfoIcon" && (
+                                                <InfoIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "HelpCircleIcon" && (
+                                                <HelpCircleIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon ===
+                                                "MessageCircleIcon" && (
+                                                <MessageCircleIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              <span>{item.label}</span>
+                                            </div>
+                                          )}
 
-                                    {/* Description rendering */}
-                                    {link.type === "description" && "description" in item ? (
-                                      <div className="space-y-1">
-                                        <div className="font-medium">{item.label}</div>
-                                        <p className="text-muted-foreground line-clamp-2 text-xs">
-                                          {item.description}
-                                        </p>
-                                      </div>
-                                    ) : (
-                                      !link.type ||
-                                      (link.type !== "icon" &&
-                                        link.type !== "description" && <span>{item.label}</span>)
-                                    )}
-                                  </Link>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </>
-                    ) : (
-                      <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
-                        <Link to={link.href ?? "/"}>{link.label}</Link>
-                      </NavigationMenuLink>
+                                        {link.type === "description" &&
+                                        "description" in item ? (
+                                          <div className="space-y-1">
+                                            <div className="font-medium">
+                                              {item.label}
+                                            </div>
+                                            <p className="text-muted-foreground line-clamp-2 text-xs">
+                                              {item.description}
+                                            </p>
+                                          </div>
+                                        ) : (
+                                          !link.type ||
+                                          (link.type !== "icon" &&
+                                            link.type !== "description" && (
+                                              <span>{item.label}</span>
+                                            ))
+                                        )}
+                                      </Link>
+                                    </NavigationMenuLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </NavigationMenuContent>
+                          </>
+                        ) : (
+                          <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
+                            <Link to={link.href ?? "/"}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        )}
+                      </NavigationMenuItem>
                     )}
-                  </NavigationMenuItem>
-                    )
-                  }
-                  {
-                    link.role === data?.data?.role && (
+                    {link.role === data?.data?.role && (
                       <NavigationMenuItem key={index}>
-                    {link.submenu ? (
-                      <>
-                        <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
-                          {link.label}
-                        </NavigationMenuTrigger>
-                        <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-right-16! data-[motion=from-start]:slide-in-from-left-16! data-[motion=to-end]:slide-out-to-right-16! data-[motion=to-start]:slide-out-to-left-16! z-50 p-1">
-                          <ul
-                            className={cn(
-                              link.type === "description" ? "min-w-64" : "min-w-48"
-                            )}
-                          >
-                            {link.items.map((item, itemIndex) => (
-                              <li key={itemIndex}>
-                                <NavigationMenuLink asChild className="py-1.5">
-                                  <Link to={item.href}>
-                                    {/* Icon rendering */}
-                                    {link.type === "icon" && "icon" in item && (
-                                      <div className="flex items-center gap-2">
-                                        {item.icon === "BookOpenIcon" && (
-                                          <BookOpenIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "LifeBuoyIcon" && (
-                                          <LifeBuoyIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "InfoIcon" && (
-                                          <InfoIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "HelpCircleIcon" && (
-                                          <HelpCircleIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        {item.icon === "MessageCircleIcon" && (
-                                          <MessageCircleIcon
-                                            size={16}
-                                            className="text-foreground opacity-60"
-                                            aria-hidden="true"
-                                          />
-                                        )}
-                                        <span>{item.label}</span>
-                                      </div>
-                                    )}
+                        {link.submenu ? (
+                          <>
+                            <NavigationMenuTrigger className="text-muted-foreground hover:text-primary bg-transparent px-2 py-1.5 font-medium *:[svg]:-me-0.5 *:[svg]:size-3.5">
+                              {link.label}
+                            </NavigationMenuTrigger>
+                            <NavigationMenuContent className="data-[motion=from-end]:slide-in-from-right-16! data-[motion=from-start]:slide-in-from-left-16! data-[motion=to-end]:slide-out-to-right-16! data-[motion=to-start]:slide-out-to-left-16! z-50 p-1">
+                              <ul
+                                className={cn(
+                                  link.type === "description"
+                                    ? "min-w-64"
+                                    : "min-w-48"
+                                )}
+                              >
+                                {link.items.map((item, itemIndex) => (
+                                  <li key={itemIndex}>
+                                    <NavigationMenuLink asChild className="py-1.5">
+                                      <Link to={item.href}>
+                                        {link.type === "icon" &&
+                                          "icon" in item && (
+                                            <div className="flex items-center gap-2">
+                                              {item.icon === "BookOpenIcon" && (
+                                                <BookOpenIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "LifeBuoyIcon" && (
+                                                <LifeBuoyIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "InfoIcon" && (
+                                                <InfoIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon === "HelpCircleIcon" && (
+                                                <HelpCircleIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              {item.icon ===
+                                                "MessageCircleIcon" && (
+                                                <MessageCircleIcon
+                                                  size={16}
+                                                  className="text-foreground opacity-60"
+                                                  aria-hidden="true"
+                                                />
+                                              )}
+                                              <span>{item.label}</span>
+                                            </div>
+                                          )}
 
-                                    {/* Description rendering */}
-                                    {link.type === "description" && "description" in item ? (
-                                      <div className="space-y-1">
-                                        <div className="font-medium">{item.label}</div>
-                                        <p className="text-muted-foreground line-clamp-2 text-xs">
-                                          {item.description}
-                                        </p>
-                                      </div>
-                                    ) : (
-                                      !link.type ||
-                                      (link.type !== "icon" &&
-                                        link.type !== "description" && <span>{item.label}</span>)
-                                    )}
-                                  </Link>
-                                </NavigationMenuLink>
-                              </li>
-                            ))}
-                          </ul>
-                        </NavigationMenuContent>
-                      </>
-                    ) : (
-                      <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
-                        <Link to={link.href ?? "/"}>{link.label}</Link>
-                      </NavigationMenuLink>
+                                        {link.type === "description" &&
+                                        "description" in item ? (
+                                          <div className="space-y-1">
+                                            <div className="font-medium">
+                                              {item.label}
+                                            </div>
+                                            <p className="text-muted-foreground line-clamp-2 text-xs">
+                                              {item.description}
+                                            </p>
+                                          </div>
+                                        ) : (
+                                          !link.type ||
+                                          (link.type !== "icon" &&
+                                            link.type !== "description" && (
+                                              <span>{item.label}</span>
+                                            ))
+                                        )}
+                                      </Link>
+                                    </NavigationMenuLink>
+                                  </li>
+                                ))}
+                              </ul>
+                            </NavigationMenuContent>
+                          </>
+                        ) : (
+                          <NavigationMenuLink asChild className="text-muted-foreground hover:text-primary py-1.5 font-medium">
+                            <Link to={link.href ?? "/"}>{link.label}</Link>
+                          </NavigationMenuLink>
+                        )}
+                      </NavigationMenuItem>
                     )}
-                  </NavigationMenuItem>
-                    )
-                  }
                   </React.Fragment>
                 ))}
               </NavigationMenuList>
@@ -364,7 +380,7 @@ export default function Navbar() {
 
         {/* Right side */}
         <div className="flex items-center gap-2">
-          <ModeToggle/>
+          <ModeToggle />
           {data?.data?.email && (
             <Button
               onClick={handleLogout}
@@ -375,7 +391,7 @@ export default function Navbar() {
             </Button>
           )}
           {!data?.data?.email && (
-            <Button asChild className="text-sm">
+            <Button asChild className="text-sm border-2 border-black">
               <Link to="/login">Login</Link>
             </Button>
           )}

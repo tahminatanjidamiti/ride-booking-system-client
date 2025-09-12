@@ -17,6 +17,13 @@ import { adminSidebarItems } from "./adminSidebarItems";
 import { riderSidebarItems } from "./riderSidebarItems";
 import { driverSidebarItems } from "./driverSidebarItems";
 import Unauthorized from "@/pages/Unauthorized";
+import Success from "@/pages/Payment/Success";
+import Fail from "@/pages/Payment/Fail";
+import Cancel from "@/pages/Payment/Cancel";
+import RideDetails from "@/pages/RideDetails";
+import Booking from "@/pages/Bookings";
+import RequestDriver from "@/pages/Driver/RequestDriver";
+
 
 export const router = createBrowserRouter([
   {
@@ -43,13 +50,25 @@ export const router = createBrowserRouter([
         Component: FAQ,
         path: "faq",
       },
+      {
+        Component: withAuth(RequestDriver),
+        path: "request/driver",
+      },
+      {
+        Component: withAuth(RideDetails),
+        path: "details/:id",
+      },
+      {
+        Component: withAuth(Booking),
+        path: "booking/:id",
+      },
     ],
   },
   {
     Component: withAuth(DashboardLayout, role.admin as TRole),
     path: "/admin",
     children: [
-      { index: true, element: <Navigate to="/admin/analytics" /> },
+      { index: true, element: <Navigate to="/admin/profile" /> },
       ...generateRoutes(adminSidebarItems),
     ],
   },
@@ -57,7 +76,7 @@ export const router = createBrowserRouter([
     Component: withAuth(DashboardLayout, role.rider as TRole),
     path: "/rider",
     children: [
-      { index: true, element: <Navigate to="/rider/bookings" /> },
+      { index: true, element: <Navigate to="/rider/profile" /> },
       ...generateRoutes(riderSidebarItems),
     ],
   },
@@ -65,7 +84,7 @@ export const router = createBrowserRouter([
     Component: withAuth(DashboardLayout, role.driver as TRole),
     path: "/driver",
     children: [
-      { index: true, element: <Navigate to="/driver/bookings" /> },
+      { index: true, element: <Navigate to="/driver/profile" /> },
       ...generateRoutes(driverSidebarItems),
     ],
   },
@@ -84,5 +103,17 @@ export const router = createBrowserRouter([
   {
     Component: Unauthorized,
     path: "/unauthorized",
+  },
+  {
+    Component: Success,
+    path: "/payment/success",
+  },
+  {
+    Component: Fail,
+    path: "/payment/fail",
+  },
+  {
+    Component: Cancel,
+    path: "/payment/cancel",
   },
 ]);

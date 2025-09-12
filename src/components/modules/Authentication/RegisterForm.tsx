@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
   Form,
@@ -63,11 +64,11 @@ export function RegisterForm({
 
     try {
       const result = await register(userInfo).unwrap();
-      console.log(result);
+      // console.log(result);
       toast.success("User created successfully");
       navigate("/verify", { state: data.email });
     } catch (error) {
-      console.error(error);
+      // console.error(error);
     }
   };
 
@@ -151,7 +152,7 @@ export function RegisterForm({
                 </FormItem>
               )}
             />
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full border-2 border-black">
               Submit
             </Button>
           </form>

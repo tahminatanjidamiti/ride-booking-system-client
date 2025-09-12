@@ -39,7 +39,7 @@ export function LoginForm({
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      console.error(err);
+      // console.error(err);
 
       if (err.data.message === "Password does not match") {
         toast.error("Invalid credentials");
@@ -100,7 +100,7 @@ export function LoginForm({
               )}
             />
 
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full border-2 border-black">
               Login
             </Button>
           </form>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -68,7 +69,7 @@ export default function Verify() {
         setTimer(180);
       }
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
@@ -86,8 +87,9 @@ export default function Verify() {
         setConfirmed(true);
         navigate("/login")
       }
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
-      console.log(err);
+      // console.log(err);
     }
   };
 
