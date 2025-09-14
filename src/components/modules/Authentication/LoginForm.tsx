@@ -10,10 +10,10 @@ import {
 import { Input } from "@/components/ui/input";
 import config from "@/config";
 import { cn } from "@/lib/utils";
-import { useLoginMutation } from "@/redux/features/auth/auth.api";
+import { useLoginMutation, useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import type { FieldValues, SubmitHandler } from "react-hook-form";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { toast } from "sonner";
 
 export function LoginForm({
@@ -29,13 +29,20 @@ export function LoginForm({
     },
   });
   const [login] = useLoginMutation();
+
+  const location = useLocation();
+  const { refetch } = useUserInfoQuery(undefined);
+  const redirect = (location.state as { from?: string })?.from || "/";
+
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
       const res = await login(data).unwrap();
 
       if (res.success) {
         toast.success("Logged in successfully");
-        navigate("/");
+
+      await refetch();
+      navigate(redirect, { replace: true, state: { email: data.email } });
       }
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
@@ -51,6 +58,11 @@ export function LoginForm({
       }
     }
   };
+
+  const handleGoogleLogin = () => {
+    window.open(`${config.baseUrl}/auth/google?redirect=${redirect}`);
+  };
+
 
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
@@ -113,7 +125,7 @@ export function LoginForm({
         </div>
 
         <Button
-          onClick={() => window.open(`${config.baseUrl}/auth/google`)}
+          onClick={handleGoogleLogin}
           type="button"
           variant="outline"
           className="w-full cursor-pointer"

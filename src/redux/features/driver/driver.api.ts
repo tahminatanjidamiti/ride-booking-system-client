@@ -31,8 +31,15 @@ export const driverApi = baseApi.injectEndpoints({
             }),
             invalidatesTags: ["DRIVER"],
         }),
-        getNearestDrivers: builder.query<IResponse<TDriverProfile[]>, void>({
-            query: () => ({ url: "/drivers/nearest", method: "GET" }),
+        getNearestDrivers: builder.query<
+            IResponse<TDriverProfile[]>,
+            { lat: number; lng: number; radius?: number }
+        >({
+            query: ({ lat, lng, radius = 5 }) => ({
+                url: "/drivers/nearest",
+                method: "GET",
+                params: { lat, lng, radius },
+            }),
             providesTags: ["DRIVER"],
         }),
     }),

@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { useCancelRideMutation, useGetAllRidesQuery } from "@/redux/features/ride/ride.api";
 import type { TQueryParams } from "@/types";
 import Skeleton from "@/components/Skeleton";
@@ -14,6 +14,7 @@ export default function RideDetails() {
   const ride = data?.data?.[0];
 
   const [cancelRide] = useCancelRideMutation();
+  const navigate = useNavigate();
 
   const handleCancelRide = async (rideId: string) => {
     const toastId = toast.loading("Cancelling...");
@@ -22,6 +23,7 @@ export default function RideDetails() {
 
       if (res.success) {
         toast.success("Removed", { id: toastId });
+        navigate(-1)
       }
     } catch (err) {
       console.error(err);

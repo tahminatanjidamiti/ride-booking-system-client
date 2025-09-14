@@ -10,9 +10,10 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import config from "@/config";
 import { cn } from "@/lib/utils";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRegisterMutation } from "@/redux/features/auth/auth.api";
@@ -44,6 +45,9 @@ export function RegisterForm({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const [register] = useRegisterMutation();
   const navigate = useNavigate();
+  const location = useLocation();
+  
+    const redirect = (location.state as { from?: string })?.from || "/";
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -70,6 +74,10 @@ export function RegisterForm({
     } catch (error) {
       // console.error(error);
     }
+  };
+
+const handleGoogleLogin = () => {
+    window.location.href = `${config.baseUrl}/auth/google?redirect=${redirect}`;
   };
 
   return (
@@ -165,6 +173,7 @@ export function RegisterForm({
         </div>
 
         <Button
+        onClick={handleGoogleLogin}
           type="button"
           variant="outline"
           className="w-full cursor-pointer"

@@ -26,6 +26,7 @@ export default function Profile() {
     skip: !updateUser,
   });
   const user = data?.data;
+  
 
   // --- Location state ---
   const [location, setLocation] = useState<ILocation>({
@@ -153,7 +154,7 @@ export default function Profile() {
           <CardContent className="p-6">
             <div className="flex items-center gap-4">
               <img
-                src={user.picture}
+                src={user?.picture ?? null}
                 alt={user.name}
                 className="w-24 h-24 rounded-full object-cover border"
               />
