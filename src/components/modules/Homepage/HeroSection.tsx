@@ -4,7 +4,6 @@ import { Link } from "react-router";
 
 export default function HeroSection() {
   
-  
   return (
     <section className="relative overflow-hidden py-32 min-h-screen">
       <div className="absolute inset-x-0 top-0 flex h-full w-full items-center justify-center opacity-100">
@@ -30,7 +29,7 @@ export default function HeroSection() {
               </p>
             </div>
             <div className="mt-6 flex justify-center">
-                <Button className="font-extrabold border-2 border-black hover:text-black hover:bg-red-900">
+                <Button className="font-bold border-2 text border-black hover:text-black dark:bg-red-900 hover:bg-red-900">
                   <Link to={"/rider/request"}>Book Ride</Link>
                 </Button>
             </div>

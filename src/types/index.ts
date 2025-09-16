@@ -8,6 +8,7 @@ export type { IPayment, PAYMENT_STATUS, TPaymentActionPayload, TPaymentActionRes
 export type { IUserStats, IRideStats, IDriverStats, IBookingStats, IPaymentStats } from "./stats.type"
 export type { TRideRequest, TRideHistory, TProfile, TProfileResponse, TRideResponse, TRideHistoryResponse } from "./rider.type"
 export type { TDriverProfile, IDriverProfile } from "./driver.type"
+export type { EmergencyContact, ISOSPayload, ISOSResponse } from "./sos.type"
 
 // Pagination & filtering params
 export type TQueryParams = { _id?: string; page?: number; total?: number; totalPage?: number; limit?: number; sort?: string; search?: string; role?: string; status?: string };
