@@ -22,9 +22,7 @@ export default function Profile() {
   const [changePassword] = useChangePasswordMutation();
   const [setPassword] = useSetPasswordMutation();
 
-  const { data, isLoading } = useUserInfoQuery(undefined, {
-    skip: !updateUser,
-  });
+  const { data, isLoading } = useUserInfoQuery(undefined);
   const user = data?.data;
 
   // --- Location state ---

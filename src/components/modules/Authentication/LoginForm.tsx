@@ -22,17 +22,28 @@ export function LoginForm({
 }: React.HTMLAttributes<HTMLDivElement>) {
   const navigate = useNavigate();
   const form = useForm({
-    //! For development only
     defaultValues: {
-      email: "admin@gmail.com",
-      password: "@A123456",
-    },
-  });
+    email: "",
+    password: "",
+  },});
   const [login] = useLoginMutation();
 
   const location = useLocation();
   const { refetch } = useUserInfoQuery(undefined);
   const redirect = (location.state as { from?: string })?.from || "/";
+
+
+  const fillCredentials = (role: "ADMIN" | "RIDER" | "DRIVER") => {
+    const credentials = {
+      ADMIN: { email: "admin@gmail.com", password: "@A123456" },
+      RIDER: { email: "mity2027@gmail.com", password: "@A123456" },
+      DRIVER: { email: "tahminatanjidamiti@gmail.com", password: "@A123456" },
+    };
+
+    form.setValue("email", credentials[role].email);
+    form.setValue("password", credentials[role].password);
+  };
+
 
   const onSubmit: SubmitHandler<FieldValues> = async (data) => {
     try {
@@ -41,10 +52,10 @@ export function LoginForm({
       if (res.success) {
         toast.success("Logged in successfully");
 
-      await refetch();
-      navigate(redirect, { replace: true, state: { email: data.email } });
+        await refetch();
+        navigate(redirect, { replace: true, state: { email: data.email } });
       }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
       // console.error(err);
 
@@ -74,6 +85,12 @@ export function LoginForm({
       </div>
       <div className="grid gap-6">
         <Form {...form}>
+          <div className="flex gap-2 mb-2 ml-10">
+            <Button className="bg-amber-800 hover:bg-amber-700 text-white border-2 border-black" onClick={() => fillCredentials('ADMIN')}>Admin</Button>
+            <Button className="bg-amber-800 hover:bg-amber-700 text-white border-2 border-black" onClick={() => fillCredentials('RIDER')}>Rider</Button>
+            <Button className="bg-amber-800 hover:bg-amber-700 text-white border-2 border-black" onClick={() => fillCredentials('DRIVER')}>Driver</Button>
+          </div>
+
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
             <FormField
               control={form.control}
@@ -82,11 +99,7 @@ export function LoginForm({
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input
-                      placeholder="john@example.com"
-                      {...field}
-                      value={field.value || ""}
-                    />
+                    <Input type="email" placeholder="john@example.com" {...field} value={field.value || ""} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -100,13 +113,16 @@ export function LoginForm({
                 <FormItem>
                   <FormLabel>Password</FormLabel>
                   <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="********"
-                      {...field}
-                      value={field.value || ""}
-                    />
+                    <Input type="password" placeholder="********" {...field} value={field.value || ""} />
                   </FormControl>
+                  <div className="flex justify-end">
+                    <Link
+                      to="/forgot-password"
+                      className="text-sm text-blue-600 hover:underline"
+                    >
+                      Forget password?
+                    </Link>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}

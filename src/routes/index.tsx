@@ -23,12 +23,16 @@ import Cancel from "@/pages/Payment/Cancel";
 import RideDetails from "@/pages/RideDetails";
 import Booking from "@/pages/Bookings";
 import RequestDriver from "@/pages/Driver/RequestDriver";
+import ForgotPasswordPage from "@/pages/ForgotPasswordPage";
+import ResetPasswordPage from "@/pages/ResetPasswordPage";
+import ErrorPage from "@/pages/ErrorPage";
 
 
 export const router = createBrowserRouter([
   {
     Component: App,
     path: "/",
+    errorElement: <ErrorPage></ErrorPage>,
     children: [
       {
         Component: HomePage,
@@ -49,6 +53,14 @@ export const router = createBrowserRouter([
       {
         Component: FAQ,
         path: "faq",
+      },
+      {
+        Component: ForgotPasswordPage,
+        path: "forgot-password",
+      },
+      {
+        Component: ResetPasswordPage,
+        path: "reset-password",
       },
       {
         Component: withAuth(RequestDriver),
@@ -106,14 +118,14 @@ export const router = createBrowserRouter([
   },
   {
     Component: Success,
-    path: "/payment/success",
+    path: "api/vi/payment/success",
   },
   {
     Component: Fail,
-    path: "/payment/fail",
+    path: "api/v1/payment/fail",
   },
   {
     Component: Cancel,
-    path: "/payment/cancel",
+    path: "api/v1/payment/cancel",
   },
 ]);

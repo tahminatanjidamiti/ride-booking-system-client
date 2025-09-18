@@ -9,7 +9,7 @@ import { RefreshCcw } from "lucide-react";
 import type { EmergencyContact, IUser } from "@/types";
 import { useUserInfoQuery } from "@/redux/features/auth/auth.api";
 import SOSButton from "@/components/SOSButton";
-import Skeleton from "@/components/Skeleton";
+
 
 const steps: Step[] = [
   { target: ".hero-section", content: "Welcome! This is the hero section." },
@@ -52,9 +52,7 @@ export default function HomePage() {
     setTimeout(() => setJoyrideRunning(true), 100);
   };
 
-  if (isLoading) return <div className="flex min-h-svh flex-col items-center justify-center">
-    <Skeleton className="h-8 w-40" />
-  </div>;
+
 
   return (
     <div>

@@ -82,13 +82,22 @@ export const authApi = baseApi.injectEndpoints({
       }),
     }),
 
-    resetPassword: builder.mutation<IResponse<null>, { token: string; newPassword: string }>({
-      query: (payload) => ({
+
+
+    resetPassword: builder.mutation<
+      IResponse<null>,
+      { id: string; token: string; newPassword: string }
+    >({
+      query: ({ id, token, newPassword }) => ({
         url: "/auth/reset-password",
         method: "POST",
-        data: payload,
+        headers: {
+          Authorization: `Bearer ${token}`, // ✅ backend expects this//
+        },
+        data: { id, newPassword }, // ✅ only send id & newPassword//
       }),
     }),
+
 
     forgotPassword: builder.mutation<IResponse<null>, { email: string }>({
       query: (payload) => ({
