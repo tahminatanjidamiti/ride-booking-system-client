@@ -1,6 +1,6 @@
 # 🚖 Ride Booking System Frontend
 
-A modern, responsive frontend application for the **Ride Booking System**, built with **React**, **TypeScript**, **Tailwind CSS**, **Shadcn**, **Radix UI**, and **Redux Toolkit**. It provides riders, drivers, and admins with a smooth, interactive experience.
+A modern, responsive frontend application for the **Ride Booking System**, built with **React**, **TypeScript**, **Tailwind CSS**, **Shadcn**, **Radix UI**, **Redux Toolkit**, **Axios** and so on. It provides riders, drivers, and admins with a smooth, interactive experience.
 
 # 🌐 Live Link
 [https://ride-booking-system-frontend-five.vercel.app/](https://ride-booking-system-frontend-five.vercel.app/)
@@ -17,11 +17,11 @@ A modern, responsive frontend application for the **Ride Booking System**, built
 - 🚖 Request and cancel rides with pickup & destination points
 - 🕓 View ride history and status updates
 - 💳 Initiate payments and view invoices
-- 📍 Live driver location on maps (Leaflet integration)
+- 📍 Able to provide Live location on maps (Leaflet integration)
 
 ### 🚗 Driver Features
 - ✅ Accept/Reject ride requests
-- 🔄 Update ride status (On the way, Completed, Cancelled)
+- 🔄 Update ride status (Requested, Completed, Cancelled)
 - 📍 Real-time location updates for rides
 - 📊 View earnings and ride statistics
 
@@ -33,9 +33,33 @@ A modern, responsive frontend application for the **Ride Booking System**, built
 ### ✨ UI & UX Enhancements
 - 💨 Smooth animations with Framer Motion
 - 🛠 Custom components built using Radix UI
-- 🌙 Dark/Light theme toggle
+- 🌙 Dark/Light theme toggle support via `next-themes`
 - 🏞 Responsive design for mobile, tablet, and desktop
 - 🔄 Interactive charts with Recharts for analytics
+
+## 🎬 Features Demo
+
+Here’s a quick visual overview of the Ride Booking System Client:
+
+### 🏠 Home & Dashboard
+![Home Page](./assets/screenshots/home.png)  
+Rider, Driver, and Admin dashboards with role-based content.
+
+### 🚖 Ride Booking
+![Ride Booking](./assets/screenshots/ride-booking.gif)  
+Request rides, track status, and share locations in real-time.
+
+### 📊 Analytics & Stats
+![Admin Dashboard](./assets/screenshots/admin-dashboard.gif)  
+Admin can view users, rides, bookings, and payments analytics.
+
+### 💳 Payment & Invoice
+![Payment](./assets/screenshots/payment.gif)  
+Initiate payments and download invoice PDFs securely.
+
+### 🌙 Dark/Light Mode
+![Theme Toggle](./assets/screenshots/theme-toggle.gif)  
+Switch between light and dark themes for better accessibility.
 
 ---
 
