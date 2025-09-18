@@ -58,7 +58,7 @@ export default function Earnings() {
         <Card>
           <CardContent>
             <h2 className="text-lg font-semibold">Total Earnings</h2>
-            <p className="text-2xl font-bold">${totalEarnings}</p>
+            <p className="text-2xl font-bold">৳{totalEarnings}</p>
           </CardContent>
         </Card>
         <Card>
