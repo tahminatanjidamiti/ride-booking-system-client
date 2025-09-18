@@ -118,14 +118,14 @@ export const router = createBrowserRouter([
   },
   {
     Component: Success,
-    path: "api/vi/payment/success",
+    path: "/payment/success",
   },
   {
     Component: Fail,
-    path: "api/v1/payment/fail",
+    path: "/payment/fail",
   },
   {
     Component: Cancel,
-    path: "api/v1/payment/cancel",
+    path: "/payment/cancel",
   },
 ]);
