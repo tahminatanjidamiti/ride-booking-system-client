@@ -9,8 +9,8 @@ import { useCreateSOSMutation, useEndSOSMutation, useUpdateSOSMutation } from "@
 
 
 export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { location, getCurrent, startWatch, stopWatch } = useGeolocation();
+
+  const { getCurrent, startWatch, stopWatch } = useGeolocation();
   const [open, setOpen] = useState(false);
   const [sending, setSending] = useState(false);
   const [liveShare, setLiveShare] = useState(false);
@@ -27,10 +27,10 @@ export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) 
       try {
         const loc = await getCurrent({ enableHighAccuracy: true, maximumAge: 10000, timeout: 10000 });
         setCurrentLoc(loc);
-      // eslint-disable-next-line no-empty
-      } catch {}
+        // eslint-disable-next-line no-empty
+      } catch { }
     })();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const openConfirm = () => setOpen(true);
@@ -74,7 +74,7 @@ export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) 
       async (loc: ILocation) => {
         setCurrentLoc(loc);
         if (eventId) {
-          updateSOS({ id: eventId, location: loc }).catch(() => {});
+          updateSOS({ id: eventId, location: loc }).catch(() => { });
         }
       },
       { enableHighAccuracy: true, maximumAge: 3000, timeout: 10000 }
@@ -95,7 +95,7 @@ export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) 
     stopWatch();
     setLiveShare(false);
     if (eventIdRef.current) {
-      endSOS({ id: eventIdRef.current }).catch(() => {});
+      endSOS({ id: eventIdRef.current }).catch(() => { });
       eventIdRef.current = null;
     }
   };
@@ -109,9 +109,11 @@ export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) 
 
       {open && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4">
-          <div className="w-full max-w-xl rounded-lg bg-white p-6">
+          <div className="w-full max-w-xl rounded-lg bg-white dark:bg-gray-800 p-6 text-gray-900 dark:text-gray-100">
             <h3 className="text-xl font-bold mb-2">Send SOS</h3>
-            <p className="mb-4">Your current location will be sent to your emergency contacts.</p>
+            <p className="mb-4 text-gray-700 dark:text-gray-300">
+              Your current location will be sent to your emergency contacts.
+            </p>
 
             <div className="mb-4 h-60">
               <MapSelector
@@ -123,20 +125,54 @@ export default function SOSButton({ savedContacts = [] as EmergencyContact[] }) 
             </div>
 
             <label className="flex items-center gap-2 mb-3">
-              <input type="checkbox" checked={liveShare} onChange={(e) => setLiveShare(e.target.checked)} className="w-4 h-4" />
+              <input
+                type="checkbox"
+                checked={liveShare}
+                onChange={(e) => setLiveShare(e.target.checked)}
+                className="w-4 h-4"
+              />
               <span>Share live location for</span>
-              <input type="number" min={1} max={60} value={durationMins} onChange={(e) => setDurationMins(Number(e.target.value))} className="ml-2 w-20 px-2 py-1 border rounded" />
+              <input
+                type="number"
+                min={1}
+                max={60}
+                value={durationMins}
+                onChange={(e) => setDurationMins(Number(e.target.value))}
+                className="ml-2 w-20 px-2 py-1 border border-gray-300 dark:border-gray-600 rounded bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100"
+              />
               <span>minutes</span>
             </label>
 
             <div className="flex items-center gap-3 justify-end mt-4">
-              <button onClick={closeConfirm} className="px-4 py-2 rounded border">Cancel</button>
+              <button
+                onClick={closeConfirm}
+                className="px-4 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100 hover:bg-gray-100 dark:hover:bg-gray-700"
+              >
+                Cancel
+              </button>
               {!liveShare ? (
-                <button onClick={sendSOSHandler} disabled={sending} className="px-4 py-2 rounded bg-red-800 text-white disabled:opacity-60">{sending ? "Sending..." : "Confirm & Send SOS"}</button>
+                <button
+                  onClick={sendSOSHandler}
+                  disabled={sending}
+                  className="px-4 py-2 rounded bg-red-800 text-white disabled:opacity-60"
+                >
+                  {sending ? "Sending..." : "Confirm & Send SOS"}
+                </button>
               ) : (
                 <div className="flex items-center gap-2">
-                  <button onClick={sendSOSHandler} disabled={sending} className="px-4 py-2 rounded bg-red-800 text-white disabled:opacity-60">{sending ? "Sending..." : "Confirm & Send & Start Live"}</button>
-                  <button onClick={stopLiveShare} className="px-3 py-2 rounded border">Stop Live</button>
+                  <button
+                    onClick={sendSOSHandler}
+                    disabled={sending}
+                    className="px-4 py-2 rounded bg-red-800 text-white disabled:opacity-60"
+                  >
+                    {sending ? "Sending..." : "Confirm & Send & Start Live"}
+                  </button>
+                  <button
+                    onClick={stopLiveShare}
+                    className="px-3 py-2 rounded border border-gray-300 dark:border-gray-600 text-gray-900 dark:text-gray-100"
+                  >
+                    Stop Live
+                  </button>
                 </div>
               )}
             </div>

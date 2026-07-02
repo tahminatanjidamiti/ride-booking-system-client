@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import config from "@/config";
 import axios from "axios";
 import type { AxiosRequestConfig } from "axios";
@@ -71,7 +70,7 @@ axiosInstance.interceptors.response.use(
 
       isRefreshing = true;
       try {
-        const res = await axiosInstance.post("/auth/refresh-token");
+        await axiosInstance.post("/auth/refresh-token");
         // console.log("New Token arrived", res);
 
         processQueue(null);

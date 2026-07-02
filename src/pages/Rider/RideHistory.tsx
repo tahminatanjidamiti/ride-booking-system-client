@@ -16,7 +16,7 @@ import Skeleton from "@/components/Skeleton";
 
 export default function RideHistory() {
     const { data, isLoading } = useGetRideHistoryQuery();
-    const rides = data?.data || [];
+    const rides = useMemo(() => data?.data || [], [data]);
 
     // Local states
     const [search, setSearch] = useState("");

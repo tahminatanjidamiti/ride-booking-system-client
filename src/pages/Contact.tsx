@@ -19,7 +19,7 @@ export default function Contact() {
     useForm<ContactForm>({ resolver: zodResolver(schema) });
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const onSubmit = (data: ContactForm) => {
+  const onSubmit = (_data: ContactForm) => {
     setTimeout(() => {
       toast.success("Message sent successfully!");
       reset();

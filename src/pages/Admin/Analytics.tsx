@@ -29,37 +29,6 @@ import {
 const PRIMARY_COLOR = "#660B05";
 const SECONDARY_COLOR = "#FFC0A0";
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-const BlockChart: React.FC<{
-  data: { name: string; value: number }[];
-  total?: number;
-  blockSize?: number;
-}> = ({ data, total, blockSize = 20 }) => {
-  const totalValue = total ?? data.reduce((sum, d) => sum + d.value, 0);
-  return (
-    <div className="flex space-x-4 justify-center">
-      {data.map((d, i) => {
-        const blocks = Math.round((d.value / totalValue) * 20);
-        return (
-          <div key={i} className="flex flex-col items-center">
-            <div className="grid grid-cols-5 gap-1">
-              {[...Array(blocks)].map((_, j) => (
-                <div
-                  key={j}
-                  style={{ width: blockSize, height: blockSize }}
-                  className="bg-[#660B05] hover:opacity-80 cursor-pointer"
-                  title={`${d.name}: ${d.value}`}
-                />
-              ))}
-            </div>
-            <span className="text-xs mt-1">{d.name}</span>
-          </div>
-        );
-      })}
-    </div>
-  );
-};
-
 const CustomShapeBarChart: React.FC<{ data: any[] }> = ({ data }) => (
   <ResponsiveContainer width="100%" height={250}>
     <ComposedChart data={data}>

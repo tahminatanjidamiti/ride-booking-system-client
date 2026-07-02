@@ -87,7 +87,6 @@ export default function Verify() {
         setConfirmed(true);
         navigate("/login")
       }
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     } catch (err) {
       // console.log(err);
     }

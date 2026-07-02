@@ -57,7 +57,6 @@ export const authApi = baseApi.injectEndpoints({
     }),
 
     // Update user 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     updateUser: builder.mutation({
       query: (updatedData) => ({
         url: "/user/update",

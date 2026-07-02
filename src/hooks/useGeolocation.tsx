@@ -81,7 +81,6 @@ export default function useGeolocation() {
 
   useEffect(() => {
     return () => stopWatch();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return { location, loading, error, getCurrent, startWatch, stopWatch };

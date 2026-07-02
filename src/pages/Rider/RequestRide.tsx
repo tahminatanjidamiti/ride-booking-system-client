@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -69,6 +68,7 @@ export default function RequestRide() {
 
   // --- Polling nearest drivers ---
   const [pollingEnabled, setPollingEnabled] = useState(true);
+  void setPollingEnabled;
   const { data: nearestDriversResp, isLoading: nearestLoading } = useGetNearestDriversQuery(
     { lat: SYLHET_DEFAULT.lat, lng: SYLHET_DEFAULT.lng, radius: 5 },
     { pollingInterval: pollingEnabled ? 10000 : 0, skip: !pollingEnabled }
@@ -106,6 +106,7 @@ export default function RequestRide() {
   const watchedDriverId = watch("driverId");
 
   const [activeMarker, setActiveMarker] = useState<"pickup" | "dropoff">("pickup");
+  void setActiveMarker;
 
   useEffect(() => {
     if (riderId) setValue("riderId", riderId);

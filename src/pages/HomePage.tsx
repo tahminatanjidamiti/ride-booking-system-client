@@ -35,7 +35,7 @@ export default function HomePage() {
       };
       setEmergencyContacts([contact]); // could allow multiple later
     }
-  }, [userData]);
+  }, [isLoading, userData]);
 
 
   const handleJoyrideCallback = (data: CallBackProps) => {
